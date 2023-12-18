@@ -12,6 +12,7 @@ function applySettings(newSettings) {
 
 function removeFeed(shouldRemove) {
   if (shouldRemove && feedPathName == window.location.pathname) {
-    document.getElementsByClassName('scaffold-finite-scroll')[0].remove();
+    const feed = document.getElementsByClassName('scaffold-finite-scroll');
+    if (feed[0]) { feed[0].remove(); }
   }
 }
