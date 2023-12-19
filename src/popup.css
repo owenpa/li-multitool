@@ -14,6 +14,7 @@ label {
 .option-container {
   display: flex;
   gap: 5px;
+  padding-bottom: 5px;
 }
 
 /* ! CHECKBOX ! */
