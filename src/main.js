@@ -22,8 +22,10 @@ function removeFeed(shouldRemove) {
   }
 }
 
-function removeSuggestedPosts(shouldRemove) {
-  if (shouldRemove && feedPathName == window.location.pathname) {
+async function removeSuggestedPosts(shouldRemove) {
+  while (shouldRemove) {
+    await sleep(500)
+    if (feedPathName !== window.location.pathname) break
     const allSpecialPosts = [...document.getElementsByClassName('update-components-header__text-view')];
     if (allSpecialPosts.length) {
       allSpecialPosts.map((textElement) => {
