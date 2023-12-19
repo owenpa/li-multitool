@@ -3,7 +3,7 @@
   "name": "LinkedIn Multitool",
   "description": "Add various useful features to LinkedIn.",
   "author": "Owen H.",
-  "version": "0.1",
+  "version": "0.2",
   "action": {
     "default_popup": "popup.html"
   },
