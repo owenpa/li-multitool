@@ -1,5 +1,10 @@
 let currentSettings = { 'removeFeed': false, 'removeSuggestedPosts': false };
 const feedPathName = '/feed/'
+
+const sleep = (ms) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 chrome.runtime.onMessage.addListener((req, send, reply) => {
   currentSettings = req['settings'];
   applySettings(currentSettings);
