@@ -1,6 +1,7 @@
 const removeFeed = document.getElementById('remove-feed');
-const removeSuggestedPosts = document.getElementById('remove-suggested-posts')
-const currentSettings = { 'removeFeed': false, 'removeSuggestedPosts': false };
+const removeSuggestedPosts = document.getElementById('remove-suggested-posts');
+const removeAds = document.getElementById('remove-ads');
+const currentSettings = { 'removeFeed': false, 'removeSuggestedPosts': false, 'removeAds': false };
 
 document.addEventListener('DOMContentLoaded', loadSettings(currentSettings));
 
@@ -11,6 +12,11 @@ removeFeed.addEventListener('click', () => {
 
 removeSuggestedPosts.addEventListener('click', () => {
   currentSettings['removeSuggestedPosts'] = removeSuggestedPosts.checked;
+  updateSettings(currentSettings);
+})
+
+removeAds.addEventListener('click', () => {
+  currentSettings['removeAds'] = removeAds.checked;
   updateSettings(currentSettings);
 })
 
@@ -25,5 +31,6 @@ function loadSettings() {
   chrome.storage.sync.get(currentSettings, (settings) => {
     removeFeed.checked = settings['removeFeed'];
     removeSuggestedPosts.checked = settings['removeSuggestedPosts'];
+    removeAds.checked = settings['removeAds'];
   })
 }
