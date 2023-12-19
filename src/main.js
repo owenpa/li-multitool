@@ -1,4 +1,4 @@
-let currentSettings = { 'removeFeed': false, 'removeSuggestedPosts': false };
+let currentSettings = { 'removeFeed': false, 'removeSuggestedPosts': false, 'removeAds': false };
 const feedPathName = '/feed/'
 
 const sleep = (ms) => {
@@ -11,8 +11,9 @@ chrome.runtime.onMessage.addListener((req, send, reply) => {
 })
 
 function applySettings(newSettings) {
-  removeFeed(newSettings['removeFeed'])
-  removeSuggestedPosts(newSettings['removeSuggestedPosts'])
+  removeFeed(newSettings['removeFeed']);
+  removeSuggestedPosts(newSettings['removeSuggestedPosts']);
+  removeAds(newSettings['removeAds']);
 }
 
 function removeFeed(shouldRemove) {
@@ -26,10 +27,35 @@ async function removeSuggestedPosts(shouldRemove) {
   while (shouldRemove) {
     await sleep(500)
     if (feedPathName !== window.location.pathname) break
+
     const allSpecialPosts = [...document.getElementsByClassName('update-components-header__text-view')];
+    
     if (allSpecialPosts.length) {
       allSpecialPosts.map((textElement) => {
         if (textElement.innerText === "Suggested") textElement.closest('.full-height').remove()
+      })
+    }
+  }
+}
+
+async function removeAds(shouldRemove) {
+  while (shouldRemove) {
+    await sleep(500)
+    if (feedPathName !== window.location.pathname) break
+
+    const subDescriptionPosts = [...document.getElementsByClassName('update-components-actor__sub-description-link')];
+    const userTitlePosts = [...document.getElementsByClassName('update-components-actor__meta-link')];
+
+    if (subDescriptionPosts.length) {
+      subDescriptionPosts.map((postDescription) => {
+        if (postDescription.firstElementChild.innerText.indexOf('Promoted') > -1) {
+          postDescription.closest('.full-height').remove()
+        }
+      })
+    }
+    if (userTitlePosts.length) {
+      userTitlePosts.map((userTitleElement) => {
+        if (userTitleElement.ariaLabel.indexOf('Promoted') > -1) userTitleElement.closest('.full-height').remove();
       })
     }
   }
