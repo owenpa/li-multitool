@@ -1,5 +1,5 @@
-let currentSettings = { 'removeFeed': false, 'removeSuggestedPosts': false, 'removeAds': false, 'removeCelebrations': false };
-const feedPathName = '/feed/'
+let currentSettings = { 'removeFeed': false, 'removeSuggestedPosts': false, 'removeAds': false, 'removeCelebrations': false, 'debloatMyNetwork': false };
+const feedPathName = '/feed/';
 
 const sleep = (ms) => {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -12,6 +12,7 @@ chrome.runtime.onMessage.addListener((req, send, reply) => {
   removeSuggestedPosts();
   removeAds();
   removeCelebrations();
+  debloatMyNetwork();
 
 })
 
@@ -68,5 +69,14 @@ async function removeCelebrations() {
     if (celebrationPosts.length) {
       celebrationPosts.map((celebrationElement) => celebrationElement.closest('.full-height').remove());
     }
+  }
+}
+
+function debloatMyNetwork() { // won't remove pending invitations
+  if (currentSettings['debloatMyNetwork'] && '/mynetwork/' == window.location.pathname) {
+    const usersAndNewsletters = document.getElementsByClassName('artdeco-card mb4 overflow-hidden');
+    const moreSuggestions = document.getElementsByClassName('mn-discovery__header artdeco-card__header');
+    if (usersAndNewsletters[0]) { usersAndNewsletters[0].remove(); }
+    if (moreSuggestions[0].parentElement) { moreSuggestions[0].parentElement.remove(); }
   }
 }

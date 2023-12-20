@@ -2,7 +2,8 @@ const removeFeed = document.getElementById('remove-feed');
 const removeSuggestedPosts = document.getElementById('remove-suggested-posts');
 const removeAds = document.getElementById('remove-ads');
 const removeCelebrations = document.getElementById('remove-celebrations');
-const currentSettings = { 'removeFeed': false, 'removeSuggestedPosts': false, 'removeAds': false, 'removeCelebrations': false };
+const debloatMyNetwork = document.getElementById('debloat-mynetwork');
+const currentSettings = { 'removeFeed': false, 'removeSuggestedPosts': false, 'removeAds': false, 'removeCelebrations': false, 'debloatMyNetwork': false };
 
 document.addEventListener('DOMContentLoaded', loadSettings(currentSettings));
 
@@ -26,6 +27,11 @@ removeCelebrations.addEventListener('click', () => {
   updateSettings(currentSettings);
 })
 
+debloatMyNetwork.addEventListener('click', () => {
+  currentSettings['debloatMyNetwork'] = debloatMyNetwork.checked;
+  updateSettings(currentSettings);
+})
+
 function updateSettings(newSettings) {
   chrome.storage.sync.set(newSettings, () => {})
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -39,5 +45,6 @@ function loadSettings() {
     removeSuggestedPosts.checked = settings['removeSuggestedPosts'];
     removeAds.checked = settings['removeAds'];
     removeCelebrations.checked = settings['removeCelebrations'];
+    debloatMyNetwork.checked = settings['debloatMyNetwork'];
   })
 }
