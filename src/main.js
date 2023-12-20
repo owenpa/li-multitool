@@ -1,4 +1,4 @@
-const currentSettings = { 'remove-feed': false, 'remove-suggested-posts': false, 'remove-ads': false, 'remove-celebrations': false, 'debloat-mynetwork': false, 'remove-premium': false };
+let currentSettings = { 'remove-feed': false, 'remove-suggested-posts': false, 'remove-ads': false, 'remove-celebrations': false, 'debloat-mynetwork': false, 'remove-premium': false };
 const feedPathName = '/feed/';
 
 const sleep = (ms) => {
@@ -7,7 +7,7 @@ const sleep = (ms) => {
 
 chrome.runtime.onMessage.addListener((req, send, reply) => {
   currentSettings = req['settings'];
-
+  
   removeFeed();
   removeSuggestedPosts();
   removeAds();
