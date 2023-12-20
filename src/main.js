@@ -1,4 +1,4 @@
-let currentSettings = { 'remove-feed': false, 'remove-suggested-posts': false, 'remove-ads': false, 'remove-celebrations': false, 'debloat-mynetwork': false, 'remove-premium': false };
+let currentSettings = { };
 const feedPathName = '/feed/';
 
 const sleep = (ms) => {
@@ -14,17 +14,15 @@ chrome.runtime.onMessage.addListener((req, send, reply) => {
   removeCelebrations();
   debloatMyNetwork();
   removePremium();
-
 })
 
 async function removeFeed() {
   while (currentSettings['remove-feed']) {
     await sleep(500);
+    if (feedPathName !== window.location.pathname) continue
 
-    if (currentSettings['remove-feed'] && feedPathName == window.location.pathname) {
-      const feed = document.getElementsByClassName('scaffold-finite-scroll');
-      if (feed[0]) { feed[0].remove(); }
-    }
+    const feed = [...document.getElementsByClassName('scaffold-finite-scroll')];
+    if (feed.length) { feed[0].remove(); }
   }
 }
 
@@ -34,12 +32,9 @@ async function removeSuggestedPosts() {
     if (feedPathName !== window.location.pathname) continue
 
     const allSpecialPosts = [...document.getElementsByClassName('update-components-header__text-view')];
-    
-    if (allSpecialPosts.length) {
-      allSpecialPosts.map((textElement) => {
-        if (textElement.innerText === "Suggested") textElement.closest('.full-height').remove()
-      })
-    }
+
+    if (!allSpecialPosts.length) continue
+    allSpecialPosts.filter(textElement => textElement.innerText === 'Suggested' ? textElement.closest('.full-height').remove() : '')
   }
 }
 
@@ -52,14 +47,13 @@ async function removeAds() {
     const userTitlePosts = [...document.getElementsByClassName('update-components-actor__meta-link')];
 
     if (subDescriptionPosts.length) {
-      subDescriptionPosts.map((postDescription) => {
-        if (postDescription.firstElementChild.innerText.indexOf('Promoted') > -1) {
-          postDescription.closest('.full-height').remove()
-        }
+      subDescriptionPosts.filter((postDescription) => {
+        const potentialAdText = postDescription.firstElementChild.innerText;
+        if (potentialAdText.indexOf('Promoted') > -1) postDescription.closest('.full-height').remove();
       })
     }
     if (userTitlePosts.length) {
-      userTitlePosts.map((userTitleElement) => {
+      userTitlePosts.filter((userTitleElement) => {
         if (userTitleElement.ariaLabel.indexOf('Promoted') > -1) userTitleElement.closest('.full-height').remove();
       })
     }
@@ -72,22 +66,18 @@ async function removeCelebrations() {
     if (feedPathName !== window.location.pathname) continue
 
     const celebrationPosts = [...document.getElementsByClassName('feed-shared-celebration-image')];
-    if (celebrationPosts.length) {
-      celebrationPosts.map((celebrationElement) => celebrationElement.closest('.full-height').remove());
-    }
+    if (!celebrationPosts.length) continue
+    
+    celebrationPosts.filter((celebrationElement) => celebrationElement.closest('.full-height').remove());
   }
 }
 
 async function debloatMyNetwork() { // won't remove pending invitations
   while (currentSettings['debloat-mynetwork']) {
     await sleep(500);
-
-    if (currentSettings['debloat-mynetwork'] && '/mynetwork/' == window.location.pathname) {
-      const usersAndNewsletters = document.getElementsByClassName('artdeco-card mb4 overflow-hidden');
-      const moreSuggestions = document.getElementsByClassName('mn-discovery__header artdeco-card__header');
-      if (usersAndNewsletters[0]) { usersAndNewsletters[0].remove(); }
-      if (moreSuggestions[0].parentElement) { moreSuggestions[0].parentElement.remove(); }
-    }
+    if ('/mynetwork/' !== window.location.pathname) continue
+    
+    [...document.getElementsByClassName('scaffold-finite-scroll')].map((e) => e.remove())
   }
 }
 
@@ -96,23 +86,30 @@ async function removePremium() {
     await sleep(500);
 
     // remove navbar promo
-    if (document.getElementsByClassName('premium-upsell-link').length) document.getElementsByClassName('premium-upsell-link')[0].remove();
+    const navbarPromo = document.getElementsByClassName('premium-upsell-link');
+    if (navbarPromo.length) navbarPromo[0].remove();
 
     // remove career heights promo from sidebar
     if (feedPathName === window.location.pathname) {
-      if (document.getElementsByClassName('feed-identity-module__anchored-widget--premium-upsell').length) document.getElementsByClassName('feed-identity-module__anchored-widget--premium-upsell')[0].remove();
+      const sidebarPromo = document.getElementsByClassName('feed-identity-module__anchored-widget--premium-upsell');
+      if (sidebarPromo.length) sidebarPromo[0].remove();
     }
 
     // remove accent bar and message from jobs page
     if ('/jobs/' === window.location.pathname) {
-      if (document.getElementsByClassName('premium-accent-bar').length) document.getElementsByClassName('premium-accent-bar')[0].className = 'artdeco-card'
-      if (document.getElementsByClassName('jobs-home-upsell-card__container').length)[0].remove();
-      if (document.getElementsByClassName('display-flex mb1').length) document.getElementsByClassName('display-flex mb1')[0].remove();
+      const accentBar = document.getElementsByClassName('premium-accent-bar');
+      const premiumCardContent = document.getElementsByClassName('jobs-home-upsell-card__container');
+      const premiumCardTitle = document.getElementsByClassName('display-flex mb1');
+
+      if (accentBar.length) accentBar[0].className = 'artdeco-card';
+      if (premiumCardContent.length) premiumCardContent[0].remove();
+      if (premiumCardTitle.length) premiumCardTitle[0].remove();
     }
 
     //remove try premium button in notifications
     if ('/notifications/' === window.location.pathname) {
-      if (document.getElementsByClassName('artdeco-button artdeco-button--2 artdeco-button--secondary ember-view').length) document.getElementsByClassName('artdeco-button artdeco-button--2 artdeco-button--secondary ember-view')[0].remove();
+      const premiumButton = document.getElementsByClassName('artdeco-button artdeco-button--2 artdeco-button--secondary ember-view')
+      if (premiumButton.length) premiumButton[0].remove();
     }
   }
 }
