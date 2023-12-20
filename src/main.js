@@ -1,4 +1,4 @@
-let currentSettings = { 'remove-feed': false, 'remove-suggested-posts': false, 'remove-ads': false, 'remove-celebrations': false, 'debloat-mynetwork': false, 'remove-premium': false };
+let currentSettings = { };
 const feedPathName = '/feed/';
 
 const sleep = (ms) => {
