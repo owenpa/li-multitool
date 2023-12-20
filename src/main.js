@@ -1,4 +1,4 @@
-let currentSettings = { 'removeFeed': false, 'removeSuggestedPosts': false, 'removeAds': false };
+let currentSettings = { 'removeFeed': false, 'removeSuggestedPosts': false, 'removeAds': false, 'removeCelebrations': false };
 const feedPathName = '/feed/'
 
 const sleep = (ms) => {
@@ -14,6 +14,7 @@ function applySettings(newSettings) {
   removeFeed(newSettings['removeFeed']);
   removeSuggestedPosts(newSettings['removeSuggestedPosts']);
   removeAds(newSettings['removeAds']);
+  removeCelebrations(newSettings['removeCelebrations']);
 }
 
 function removeFeed(shouldRemove) {
@@ -26,7 +27,7 @@ function removeFeed(shouldRemove) {
 async function removeSuggestedPosts(shouldRemove) {
   while (shouldRemove) {
     await sleep(500)
-    if (feedPathName !== window.location.pathname) break
+    if (feedPathName !== window.location.pathname) continue
 
     const allSpecialPosts = [...document.getElementsByClassName('update-components-header__text-view')];
     
@@ -41,7 +42,7 @@ async function removeSuggestedPosts(shouldRemove) {
 async function removeAds(shouldRemove) {
   while (shouldRemove) {
     await sleep(500)
-    if (feedPathName !== window.location.pathname) break
+    if (feedPathName !== window.location.pathname) continue
 
     const subDescriptionPosts = [...document.getElementsByClassName('update-components-actor__sub-description-link')];
     const userTitlePosts = [...document.getElementsByClassName('update-components-actor__meta-link')];
@@ -57,6 +58,17 @@ async function removeAds(shouldRemove) {
       userTitlePosts.map((userTitleElement) => {
         if (userTitleElement.ariaLabel.indexOf('Promoted') > -1) userTitleElement.closest('.full-height').remove();
       })
+    }
+  }
+}
+
+async function removeCelebrations(shouldRemove) { 
+  while (shouldRemove) {
+    await sleep(500);
+    if (feedPathName !== window.location.pathname) continue
+    const celebrationPosts = [...document.getElementsByClassName('feed-shared-celebration-image')];
+    if (celebrationPosts.length) {
+      celebrationPosts.map((celebrationElement) => celebrationElement.closest('.full-height').remove());
     }
   }
 }
