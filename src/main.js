@@ -7,25 +7,23 @@ const sleep = (ms) => {
 
 chrome.runtime.onMessage.addListener((req, send, reply) => {
   currentSettings = req['settings'];
-  applySettings(currentSettings);
+
+  removeFeed();
+  removeSuggestedPosts();
+  removeAds();
+  removeCelebrations();
+
 })
 
-function applySettings(newSettings) {
-  removeFeed(newSettings['removeFeed']);
-  removeSuggestedPosts(newSettings['removeSuggestedPosts']);
-  removeAds(newSettings['removeAds']);
-  removeCelebrations(newSettings['removeCelebrations']);
-}
-
-function removeFeed(shouldRemove) {
-  if (shouldRemove && feedPathName == window.location.pathname) {
+function removeFeed() {
+  if (currentSettings['removeFeed'] && feedPathName == window.location.pathname) {
     const feed = document.getElementsByClassName('scaffold-finite-scroll');
     if (feed[0]) { feed[0].remove(); }
   }
 }
 
-async function removeSuggestedPosts(shouldRemove) {
-  while (shouldRemove) {
+async function removeSuggestedPosts() {
+  while (currentSettings['removeSuggestedPosts']) {
     await sleep(500)
     if (feedPathName !== window.location.pathname) continue
 
@@ -39,8 +37,8 @@ async function removeSuggestedPosts(shouldRemove) {
   }
 }
 
-async function removeAds(shouldRemove) {
-  while (shouldRemove) {
+async function removeAds() {
+  while (currentSettings['removeAds']) {
     await sleep(500)
     if (feedPathName !== window.location.pathname) continue
 
@@ -62,8 +60,8 @@ async function removeAds(shouldRemove) {
   }
 }
 
-async function removeCelebrations(shouldRemove) { 
-  while (shouldRemove) {
+async function removeCelebrations() { 
+  while (currentSettings['removeCelebrations']) {
     await sleep(500);
     if (feedPathName !== window.location.pathname) continue
     const celebrationPosts = [...document.getElementsByClassName('feed-shared-celebration-image')];
