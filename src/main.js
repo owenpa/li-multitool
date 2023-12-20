@@ -14,6 +14,7 @@ chrome.runtime.onMessage.addListener((req, send, reply) => {
   removeCelebrations();
   debloatMyNetwork();
   removePremium();
+  highlightMessages();
 })
 
 async function removeFeed() {
@@ -111,5 +112,14 @@ async function removePremium() {
       const premiumButton = document.getElementsByClassName('artdeco-button artdeco-button--2 artdeco-button--secondary ember-view')
       if (premiumButton.length) premiumButton[0].remove();
     }
+  }
+}
+
+async function highlightMessages() {
+  while (currentSettings['highlight-msg']) {
+    await sleep(800);
+
+    const specialMessages = [...document.getElementsByClassName('msg-conversation-card__pill t-14')];
+    specialMessages.length ? specialMessages.map((previewMessage) => previewMessage.closest('.msg-conversation-listitem__link').style.background = '#ffc2c2') : '';
   }
 }
