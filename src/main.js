@@ -18,10 +18,10 @@ chrome.runtime.onMessage.addListener((req, send, reply) => {
 })
 
 async function removeFeed() {
-  while (currentSettings['removeFeed']) {
+  while (currentSettings['remove-feed']) {
     await sleep(500);
 
-    if (currentSettings['removeFeed'] && feedPathName == window.location.pathname) {
+    if (currentSettings['remove-feed'] && feedPathName == window.location.pathname) {
       const feed = document.getElementsByClassName('scaffold-finite-scroll');
       if (feed[0]) { feed[0].remove(); }
     }
@@ -29,7 +29,7 @@ async function removeFeed() {
 }
 
 async function removeSuggestedPosts() {
-  while (currentSettings['removeSuggestedPosts']) {
+  while (currentSettings['remove-suggested-posts']) {
     await sleep(500)
     if (feedPathName !== window.location.pathname) continue
 
@@ -44,7 +44,7 @@ async function removeSuggestedPosts() {
 }
 
 async function removeAds() {
-  while (currentSettings['removeAds']) {
+  while (currentSettings['remove-ads']) {
     await sleep(500)
     if (feedPathName !== window.location.pathname) continue
 
@@ -67,7 +67,7 @@ async function removeAds() {
 }
 
 async function removeCelebrations() { 
-  while (currentSettings['removeCelebrations']) {
+  while (currentSettings['remove-celebrations']) {
     await sleep(500);
     if (feedPathName !== window.location.pathname) continue
 
@@ -79,10 +79,10 @@ async function removeCelebrations() {
 }
 
 async function debloatMyNetwork() { // won't remove pending invitations
-  while (currentSettings['debloatMyNetwork']) {
+  while (currentSettings['debloat-mynetwork']) {
     await sleep(500);
 
-    if (currentSettings['debloatMyNetwork'] && '/mynetwork/' == window.location.pathname) {
+    if (currentSettings['debloat-mynetwork'] && '/mynetwork/' == window.location.pathname) {
       const usersAndNewsletters = document.getElementsByClassName('artdeco-card mb4 overflow-hidden');
       const moreSuggestions = document.getElementsByClassName('mn-discovery__header artdeco-card__header');
       if (usersAndNewsletters[0]) { usersAndNewsletters[0].remove(); }
@@ -92,7 +92,7 @@ async function debloatMyNetwork() { // won't remove pending invitations
 }
 
 async function removePremium() {
-  while (currentSettings['removePremium']) {
+  while (currentSettings['remove-premium']) {
     await sleep(500);
 
     // remove navbar promo
