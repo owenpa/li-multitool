@@ -4,6 +4,10 @@
   "description": "Add various useful features to LinkedIn.",
   "author": "Owen H.",
   "version": "1.0",
+  "icons": {
+    "96": "96x96.png",
+    "128": "128x128.png"
+  },
   "action": {
     "default_popup": "popup.html"
   },
