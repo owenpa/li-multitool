@@ -16,6 +16,7 @@ chrome.runtime.onMessage.addListener((req, send, reply) => {
   removePremium();
   highlightMessages();
   greyOrRemoveJobs();
+  removeAutoplay();
 })
 
 async function removeFeed() {
@@ -137,5 +138,31 @@ async function greyOrRemoveJobs() {
         else jobFooter.parentElement.style.background = '#dedede'
       }
     })
+  }
+}
+
+async function removeAutoplay() {
+  while (currentSettings['remove-autoplay']) {
+    await sleep(500)
+    if (feedPathName !== window.location.pathname) continue
+
+    const allVideos = [...document.getElementsByTagName('video')];
+    allVideos.filter((videoElement) => {
+      videoElement.addEventListener('play', loopPause)
+      
+      videoElement.addEventListener('click', function () {
+        videoElement.removeEventListener('play', loopPause);
+        videoElement.removeAttribute('limultitool');
+        videoElement.play();
+      })
+    })
+  }
+}
+
+async function loopPause() {
+  this.setAttribute('limultitool', 'true');
+  while (this.getAttribute('limultitool') === 'true') {
+    await sleep(500);
+    this.pause()
   }
 }
