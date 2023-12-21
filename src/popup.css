@@ -1,10 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Work+Sans:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Work+Sans:wght@400&display=swap');
+
+/* 
+rgb(3, 120, 166)
+rgb(6, 139, 191)
+rgb(115, 188, 217)
+rgb(255, 255, 255)
+rgb(13, 13, 13)
+ */
+
 body {
-  width: 300px;
-  height: 300px;
+  width: 330px;
+  height: 330px;
+  background-color: #ffffff;
+  font-family: 'Roboto', sans-serif;
+  font-family: 'Work Sans', sans-serif;
+  color: #131313;
 }
 
 h1 {
+  display: inline;
+  padding: 0;
+  margin: 0;
+}
 
+a {
+  text-decoration: none;
+  color: #131313;
+}
+
+#product {
+  color: rgb(3, 120, 166);
+}
+
+hr {
+  border: lightgray 1px solid;
+}
+
+form {
+  margin-top: 10px;
+  
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 label {
@@ -30,7 +66,7 @@ label {
 }
 
 .slider {
-  background-color: #ccc;
+  background-color: lightgray;
   bottom: 0;
   cursor: pointer;
   left: 0;
@@ -52,9 +88,38 @@ label {
 }
 
 input:checked + .slider {
-  background-color: #66bb6a;
+  background-color: rgb(115, 188, 217);
 }
 
 input:checked + .slider:before {
   transform: translateX(16px);
+}
+
+/* ! ACCORDION ! */
+.accordion {
+  font-family: 'Roboto', sans-serif;
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 500;
+  font-size: 30px;
+  border: none;
+  outline: none;
+  border-bottom: #6c6c6c 1px solid;
+  padding: 10px;
+  width: 100%;
+  transition: 0.4s;
+  color: #2b2b2b;
+}
+
+.last-panel {
+  padding-bottom: 5px;
+}
+
+.panel {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  display: none;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.2s ease-in;
 }
