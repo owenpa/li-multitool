@@ -15,7 +15,7 @@ chrome.runtime.onMessage.addListener((req, send, reply) => {
   debloatMyNetwork();
   removePremium();
   highlightMessages();
-  greyJobs();
+  greyOrRemoveJobs();
 })
 
 async function removeFeed() {
@@ -125,14 +125,17 @@ async function highlightMessages() {
   }
 }
 
-async function greyJobs() {
-  while (currentSettings['grey-jobs']) {
+async function greyOrRemoveJobs() {
+  while (currentSettings['grey-jobs'] || currentSettings['remove-jobs']) {
     await sleep(300)
     if (window.location.pathname.indexOf('/jobs/') === -1) continue
 
     const allJobPosts = [...document.getElementsByClassName('job-card-list__footer-wrapper')]
     allJobPosts.filter((jobFooter) => {
-      if (jobFooter.firstElementChild.textContent.indexOf('Promoted') > -1) jobFooter.parentElement.style.background = '#dedede'
+      if (jobFooter.firstElementChild.textContent.indexOf('Promoted') > -1) {
+        if (currentSettings['remove-jobs']) jobFooter.parentElement.remove();
+        else jobFooter.parentElement.style.background = '#dedede'
+      }
     })
   }
 }
