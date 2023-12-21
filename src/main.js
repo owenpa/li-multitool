@@ -1,4 +1,6 @@
-let currentSettings = { };
+let currentSettings = {};
+chrome.storage.sync.get(['settings']).then((chromeStoredSettings) => loadSettings(chromeStoredSettings['settings']))
+
 const feedPathName = '/feed/';
 
 const sleep = (ms) => {
@@ -6,8 +8,11 @@ const sleep = (ms) => {
 };
 
 chrome.runtime.onMessage.addListener((req, send, reply) => {
-  currentSettings = req['settings'];
-  
+  loadSettings(req['settings']);
+})
+
+function loadSettings(settings) {
+  currentSettings = settings;
   removeFeed();
   removeSuggestedPosts();
   removeAds();
@@ -17,7 +22,7 @@ chrome.runtime.onMessage.addListener((req, send, reply) => {
   highlightMessages();
   greyOrRemoveJobs();
   removeAutoplay();
-})
+}
 
 async function removeFeed() {
   while (currentSettings['remove-feed']) {
@@ -149,7 +154,7 @@ async function removeAutoplay() {
     const allVideos = [...document.getElementsByTagName('video')];
     allVideos.filter((videoElement) => {
       videoElement.addEventListener('play', loopPause)
-      
+
       videoElement.addEventListener('click', function () {
         videoElement.removeEventListener('play', loopPause);
         videoElement.removeAttribute('limultitool');
