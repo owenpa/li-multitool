@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <h1 id="product">li-multitools</h1><h1> - <a href="https://github.com/owenpa" target="_blank">@owenpa</a></h1>
+    <hr>
+    <form name="options">
+
+      <button class="accordion">GLOBAL</button>
+      <div class="panel">
+        <!--Remove Premium Mentions Slider-->
+        <div class="option-container">
+          <label class="switch" for="remove-premium">
+            <input type="checkbox" id="remove-premium" name="remove-premium" />
+            <div class="slider"></div>
+            <p>Remove Premium mentions</p>
+          </label>
+        </div>
+      </div>
+
+      <button class="accordion">FEED</button>
+      <div class="panel">
+        <!--Remove Feed Slider-->
+        <div class="option-container">
+          <label class="switch" for="remove-feed">
+            <input type="checkbox" id="remove-feed" name="remove-feed" />
+            <div class="slider"></div>
+            <p>Remove feed</p>
+          </label>
+        </div>
+        <!--Remove Suggested Feed Slider-->
+        <div class="option-container">
+          <label class="switch" for="remove-suggested-posts">
+            <input type="checkbox" id="remove-suggested-posts" name="remove-suggested-posts" />
+            <div class="slider"></div>
+            <p>Remove suggested posts</p>
+          </label>
+        </div>
+        <!--Remove Feed Ads Slider-->
+        <div class="option-container">
+          <label class="switch" for="remove-ads">
+            <input type="checkbox" id="remove-ads" name="remove-ads" />
+            <div class="slider"></div>
+            <p>Remove feed ads</p>
+          </label>
+        </div>
+        <!--Remove Celebrations Slider-->
+        <div class="option-container">
+          <label class="switch" for="remove-celebrations">
+            <input type="checkbox" id="remove-celebrations" name="remove-celebrations" />
+            <div class="slider"></div>
+            <p>Remove celebrations</p>
+          </label>
+        </div>
+        <!--Remove Video Autoplay Slider-->
+        <div class="option-container">
+          <label class="switch" for="remove-autoplay">
+            <input type="checkbox" id="remove-autoplay" name="remove-autoplay" />
+            <div class="slider"></div>
+            <p>Remove video autoplay</p>
+          </label>
+        </div>
+      </div>
+
+      <button class="accordion">NETWORK</button>
+      <div class="panel">
+        <!--Remove "My Network" Bloat Slider-->
+        <div class="option-container">
+          <label class="switch" for="debloat-mynetwork">
+            <input type="checkbox" id="debloat-mynetwork" name="debloat-mynetwork" />
+            <div class="slider"></div>
+            <p>Remove "Network" bloat</p>
+          </label>
+        </div>
+      </div>
+
+      <button class="accordion">JOBS</button>
+      <div class="panel">
+        <!--Grey Promoted Jobs Slider-->
+        <div class="option-container">
+          <label class="switch" for="grey-jobs">
+            <input type="checkbox" id="grey-jobs" name="grey-jobs" />
+            <div class="slider"></div>
+            <p>Grey promoted jobs</p>
+          </label>
+        </div>
+        <!--Remove Promoted Jobs Slider-->
+        <div class="option-container">
+          <label class="switch" for="remove-jobs">
+            <input type="checkbox" id="remove-jobs" name="remove-jobs" />
+            <div class="slider"></div>
+            <p>Remove promoted jobs</p>
+          </label>
+        </div>
+      </div>
+
+      <button class="accordion">MESSAGING</button>
+      <div class="panel last-panel">
+        <!--Highlight Inmail/Sponsored Messages Slider-->
+        <div class="option-container">
+          <label class="switch" for="highlight-msg">
+            <input type="checkbox" id="highlight-msg" name="highlight-msg" />
+            <div class="slider"></div>
+            <p>Highlight promo messages</p>
+          </label>
+        </div>
+      </div>
+      
+    </form>
+
+    <footer>bug? feature suggestions? <a id="footer-link" href="https://github.com/owenpa/li-multitool/issues/new" target="_blank">open an issue!</a></footer>
+  </body>
+  <script src="./popup.js"></script>
+</html>
