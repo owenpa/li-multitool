@@ -1,4 +1,6 @@
-let currentSettings = { };
+let currentSettings = {};
+chrome.storage.sync.get(['settings']).then((chromeStoredSettings) => loadSettings(chromeStoredSettings['settings']))
+
 const feedPathName = '/feed/';
 
 const sleep = (ms) => {
@@ -6,8 +8,11 @@ const sleep = (ms) => {
 };
 
 chrome.runtime.onMessage.addListener((req, send, reply) => {
-  currentSettings = req['settings'];
-  
+  loadSettings(req['settings']);
+})
+
+function loadSettings(settings) {
+  currentSettings = settings;
   removeFeed();
   removeSuggestedPosts();
   removeAds();
@@ -16,7 +21,8 @@ chrome.runtime.onMessage.addListener((req, send, reply) => {
   removePremium();
   highlightMessages();
   greyOrRemoveJobs();
-})
+  removeAutoplay();
+}
 
 async function removeFeed() {
   while (currentSettings['remove-feed']) {
@@ -137,5 +143,31 @@ async function greyOrRemoveJobs() {
         else jobFooter.parentElement.style.background = '#dedede'
       }
     })
+  }
+}
+
+async function removeAutoplay() {
+  while (currentSettings['remove-autoplay']) {
+    await sleep(500)
+    if (feedPathName !== window.location.pathname) continue
+
+    const allVideos = [...document.getElementsByTagName('video')];
+    allVideos.filter((videoElement) => {
+      videoElement.addEventListener('play', loopPause)
+
+      videoElement.addEventListener('click', function () {
+        videoElement.removeEventListener('play', loopPause);
+        videoElement.removeAttribute('limultitool');
+        videoElement.play();
+      })
+    })
+  }
+}
+
+async function loopPause() {
+  this.setAttribute('limultitool', 'true');
+  while (this.getAttribute('limultitool') === 'true') {
+    await sleep(500);
+    this.pause()
   }
 }
