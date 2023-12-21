@@ -1,5 +1,5 @@
 const settings = {};
-
+const accordionElements = [...document.getElementsByClassName('accordion')]
 document.addEventListener('DOMContentLoaded', loadSettings());
 
 document.forms['options'].addEventListener('change', () => {
@@ -25,3 +25,14 @@ function loadSettings() {
     }
   })
 }
+
+accordionElements.forEach((accordionButton) => accordionButton.addEventListener('click', function (eventTarget) {
+  eventTarget.preventDefault();
+  const panel = accordionButton.nextElementSibling;
+
+  if (panel.style.display === 'block') panel.style.display = 'none'
+  else panel.style.display = 'block';
+
+  if (panel.style.maxHeight) panel.style.maxHeight = null;
+  else panel.style.maxHeight = panel.scrollHeight + 'px';
+}))
