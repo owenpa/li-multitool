@@ -15,6 +15,7 @@ chrome.runtime.onMessage.addListener((req, send, reply) => {
   debloatMyNetwork();
   removePremium();
   highlightMessages();
+  greyOrRemoveJobs();
 })
 
 async function removeFeed() {
@@ -121,5 +122,20 @@ async function highlightMessages() {
 
     const specialMessages = [...document.getElementsByClassName('msg-conversation-card__pill t-14')];
     specialMessages.length ? specialMessages.map((previewMessage) => previewMessage.closest('.msg-conversation-listitem__link').style.background = '#ffc2c2') : '';
+  }
+}
+
+async function greyOrRemoveJobs() {
+  while (currentSettings['grey-jobs'] || currentSettings['remove-jobs']) {
+    await sleep(300)
+    if (window.location.pathname.indexOf('/jobs/') === -1) continue
+
+    const allJobPosts = [...document.getElementsByClassName('job-card-list__footer-wrapper')]
+    allJobPosts.filter((jobFooter) => {
+      if (jobFooter.firstElementChild.textContent.indexOf('Promoted') > -1) {
+        if (currentSettings['remove-jobs']) jobFooter.parentElement.remove();
+        else jobFooter.parentElement.style.background = '#dedede'
+      }
+    })
   }
 }
