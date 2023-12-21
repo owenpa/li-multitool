@@ -18,6 +18,11 @@ body {
   color: #131313;
 }
 
+p {
+  padding-left: 45px;
+  display: inline;
+}
+
 h1 {
   display: inline;
   padding: 0;
@@ -27,6 +32,10 @@ h1 {
 a {
   text-decoration: none;
   color: #131313;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 #product {
@@ -53,12 +62,30 @@ label {
   padding-bottom: 5px;
 }
 
+footer {
+  text-align: right;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  font-size: 14px;
+}
+
+#footer-link {
+  color: rgb(6, 139, 191);
+  text-decoration: dashed;
+  
+}
+
+#footer-link:hover {
+  color: rgb(3, 120, 166);
+  font-weight: 800;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
 /* ! CHECKBOX ! */
 .switch {
   display: inline-block;
   height: 24px;
   position: relative;
-  width: 40px;
 }
 
 .switch input {
@@ -74,6 +101,7 @@ label {
   right: 0;
   top: 0;
   transition: .4s;
+  width: 40px;
 }
 
 .slider:before {
@@ -108,6 +136,7 @@ input:checked + .slider:before {
   width: 100%;
   transition: 0.4s;
   color: #2b2b2b;
+  cursor: pointer;
 }
 
 .last-panel {
