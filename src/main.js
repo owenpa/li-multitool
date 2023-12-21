@@ -22,6 +22,7 @@ function loadSettings(settings) {
   highlightMessages();
   greyOrRemoveJobs();
   removeAutoplay();
+  removeImages();
 }
 
 async function removeFeed() {
@@ -169,5 +170,20 @@ async function loopPause() {
   while (this.getAttribute('limultitool') === 'true') {
     await sleep(500);
     this.pause()
+  }
+}
+
+async function removeImages() {
+  while (currentSettings['remove-images']) {
+    await sleep(500);
+    if (feedPathName !== window.location.pathname) continue
+
+    const allImageElements = [...document.getElementsByTagName('img')]
+    allImageElements.filter((imageElement) => {
+      if (imageElement.width > 100) {
+        const correctImageContainer = imageElement.closest('.update-components-image, .update-components-image--single-image, .feed-shared-update-v2__content')
+        if (correctImageContainer) correctImageContainer.remove()
+      }
+    })
   }
 }
