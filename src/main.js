@@ -11,8 +11,9 @@ chrome.runtime.onMessage.addListener((req, send, reply) => {
   loadSettings(req['settings']);
 })
 
-function loadSettings(settings) {
+async function loadSettings(settings) {
   currentSettings = settings;
+
   removeFeed();
   removeSuggestedPosts();
   removeAds();
@@ -125,12 +126,16 @@ async function removePremium() {
 
 async function highlightMessages() {
   while (currentSettings['highlight-msg']) {
-    await sleep(800);
+    await sleep(1000);
 
     const specialMessages = [...document.getElementsByClassName('msg-conversation-card__pill t-14')];
-    specialMessages.length ? specialMessages.map((previewMessage) => previewMessage.closest('.msg-conversation-listitem__link').style.background = '#ffc2c2') : '';
+    if (specialMessages.length) {
+      if (currentSettings['dark-mode']) specialMessages.length ? specialMessages.map((previewMessage) => previewMessage.closest('.msg-conversation-listitem__link').style.background = '#482626') : '';
+      else specialMessages.length ? specialMessages.map((previewMessage) => previewMessage.closest('.msg-conversation-listitem__link').style.background = '#ffc2c2') : '';
+    }
   }
 }
+
 
 async function greyOrRemoveJobs() {
   while (currentSettings['grey-jobs'] || currentSettings['remove-jobs']) {
@@ -138,12 +143,22 @@ async function greyOrRemoveJobs() {
     if (window.location.pathname.indexOf('/jobs/') === -1) continue
 
     const allJobPosts = [...document.getElementsByClassName('job-card-list__footer-wrapper')]
-    allJobPosts.filter((jobFooter) => {
+
+    if (currentSettings['dark-mode']) {
+      allJobPosts.filter((jobFooter) => {
+      if (jobFooter.firstElementChild.textContent.indexOf('Promoted') > -1) {
+        if (currentSettings['remove-jobs']) jobFooter.parentElement.remove();
+        else jobFooter.parentElement.style.background = '#2c3138'
+        }
+      })
+    } else {
+      allJobPosts.filter((jobFooter) => {
       if (jobFooter.firstElementChild.textContent.indexOf('Promoted') > -1) {
         if (currentSettings['remove-jobs']) jobFooter.parentElement.remove();
         else jobFooter.parentElement.style.background = '#dedede'
-      }
-    })
+        }
+      })
+    }
   }
 }
 
