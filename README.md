@@ -16,6 +16,8 @@ li-multitool is a Chrome extension that adds to LinkedIn by mostly removing feat
 - More noticeable promotional messages
 
 ## Installation
-The extension is currently in the drafting stage and is not accessible for download through the Chrome web store, however, manual installation is possible. Just download the repository, put `chrome://extensions/` into your search bar, press the `Load unpacked` button, select the `src` folder, and you're all set!
+[The public build can be installed from the Chrome web store](https://chromewebstore.google.com/detail/linkedin-multitool/ldbapangjlpdmkmmjbiagdlpbcpkghji?hl=en)
+<br>
+Manual installation of the extension through GitHub will allow access to the dev build. Just download the repository, put `chrome://extensions/` into your search bar, press the `Load unpacked` button, select the `src` folder, and you're all set!
 <br><br>
 <img src="https://raw.githubusercontent.com/owenpa/li-multitool/dev/assets/Screenshot%202023-12-21%20at%203.54.15%20PM.png" width="600px">
