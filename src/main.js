@@ -14,7 +14,6 @@ chrome.runtime.onMessage.addListener((req, send, reply) => {
 async function loadSettings(settings) {
   currentSettings = settings;
 
-  // await checkForDarkMode();
   removeFeed();
   removeSuggestedPosts();
   removeAds();
@@ -203,16 +202,3 @@ async function removeImages() {
     })
   }
 }
-
-// function darkMode() {
-
-// }
-
-// async function checkForDarkMode() {
-//   await sleep(2000).then(() => {
-//       if (getComputedStyle(document.getElementById('global-nav')).backgroundColor === 'rgb(27, 31, 35)') darkModeEnabled = true;
-//   else darkModeEnabled = false;
-//   return;
-
-//   })
-// }
